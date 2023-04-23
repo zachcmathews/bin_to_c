@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
   size_t num_bins = (argc - 1) / 2;
 
   for (size_t i = 0; i < num_bins; ++i) {
-    char *name;
+    char *name = argv[i * 2 + 1];
     char *content;
 
     ssize_t len = read_bin(argv[i * 2 + 2], &content);
