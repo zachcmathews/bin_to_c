@@ -53,11 +53,20 @@ ssize_t read_bin(char const *file, char **pContents) {
 }
 
 int main(int argc, char *argv[]) {
-  if (argc < 3)
+  if (argc < 3) {
+    fprintf(stderr, "You must provide consecutive pairs of byte array names "
+                    "and binary source "
+                    "files as input.\n");
     return -1;
+  }
 
-  if (argc % 2 == 0)
+  if (argc % 2 == 0) {
+    fprintf(stderr, "You must provide consecutive pairs of byte array names "
+                    "and binary source "
+                    "files as input.\n");
     return -1;
+  }
+
 
   size_t num_bins = (argc - 1) / 2;
 
@@ -66,8 +75,10 @@ int main(int argc, char *argv[]) {
     char *content;
 
     ssize_t len = read_bin(argv[i * 2 + 2], &content);
-    if (len == -1)
+    if (len == -1) {
+      fprintf(stderr, "Failed to read file %s\n", argv[i * 2 + 2]);
       return -1;
+    }
 
     fprintf(stdout, "const char %s[] = {\n\t", name);
 
