@@ -4,10 +4,10 @@ set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-project(bin_to_c VERSION 0.1)
+project(spv_to_h VERSION 1.0)
 
 file(GLOB source src/*.c)
-add_executable(bin_to_c ${source})
-target_compile_options(bin_to_c PRIVATE -Wall -Werror -Wpedantic)
+add_executable(spv_to_h ${source})
+target_compile_options(spv_to_h PRIVATE -Wall -Werror -Wpedantic)
 
-install(TARGETS bin_to_c)
+install(TARGETS spv_to_h)

@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -55,20 +56,19 @@ ssize_t read_bin(char const *file, char **pContents) {
 int main(int argc, char *argv[]) {
   if (argc < 3) {
     fprintf(stderr, "You must provide consecutive pairs of byte array names "
-                    "and binary source "
-                    "files as input.\n");
+                    "and binary source files as input.\n");
     return -1;
   }
 
   if (argc % 2 == 0) {
     fprintf(stderr, "You must provide consecutive pairs of byte array names "
-                    "and binary source "
-                    "files as input.\n");
+                    "and binary source files as input.\n");
     return -1;
   }
 
-
   size_t num_bins = (argc - 1) / 2;
+
+  fprintf(stdout, "#include <stdint.h>\n\n");
 
   for (size_t i = 0; i < num_bins; ++i) {
     char *name = argv[i * 2 + 1];
@@ -80,10 +80,13 @@ int main(int argc, char *argv[]) {
       return -1;
     }
 
-    fprintf(stdout, "const char %s[] = {\n\t", name);
+    const size_t spv_len = len / 4;
+    uint32_t *spv = (uint32_t *)content;
 
-    for (size_t j = 0; j < len; ++j) {
-      fprintf(stdout, "0x%02x, ", content[j]);
+    fprintf(stdout, "const uint32_t %s[] = {\n\t", name);
+
+    for (size_t j = 0; j < spv_len; ++j) {
+      fprintf(stdout, "0x%08x, ", spv[j]);
       if ((j + 1) % 10 == 0)
         fprintf(stdout, "\n\t");
     }
